@@ -8,14 +8,14 @@ namespace ProyectoFinal.Entities
         [Key]
         public int ClienteId { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string Nombre { get; set; }
 
-        [StringLength(8)]
-        public int Telefono { get; set; }
+        public int? Telefono { get; set; }
 
         [StringLength(60)]
-        public int Direccion { get; set; }
+        public string Direccion { get; set; }
 
 
     }
