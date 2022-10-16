@@ -1,0 +1,25 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProyectoFinal.Entities
+{
+    public class Factura
+    {
+        [Key]
+
+        public int FacturaId { get; set; }
+
+        [StringLength(50)]
+        public string Descripcion { get; set; }
+
+        [StringLength(20)]
+        public string Fecha { get; set; }
+
+        [StringLength(20)]
+        public string Vencimiento { get; set; }
+
+        public float Total { get; set; }
+
+
+        
+    }
+}
