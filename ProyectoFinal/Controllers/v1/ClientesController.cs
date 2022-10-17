@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProyectoFinal.Contexts;
 using ProyectoFinal.Entities;
 
@@ -6,7 +7,7 @@ namespace ProyectoFinal.Controllers.v1
 {
 
     [ApiController]
-    [Route("v1/clientes")]
+    [Route("api/v1/clientes")]
     public class ClientesController : ControllerBase
     {
         private readonly AppDbContext dbContext;
@@ -23,6 +24,20 @@ namespace ProyectoFinal.Controllers.v1
             return dbContext.Cliente.ToList();
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Cliente>> Get(int id)
+        { 
+            var cliente = await dbContext.Cliente.FindAsync(id);
+
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+
+            return cliente;
+        }
+
+
         [HttpPost]
         public async Task<ActionResult> Post(Cliente cliente)
         {
@@ -36,14 +51,14 @@ namespace ProyectoFinal.Controllers.v1
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var estudiante = await dbContext.Cliente.FindAsync(id);
+            var cliente = await dbContext.Cliente.FindAsync(id);
 
-            if (estudiante == null) 
+            if (cliente == null) 
             {
                 return NotFound();
             }
 
-            dbContext.Remove(estudiante);
+            dbContext.Remove(cliente);
             await dbContext.SaveChangesAsync();
 
             return NoContent();
