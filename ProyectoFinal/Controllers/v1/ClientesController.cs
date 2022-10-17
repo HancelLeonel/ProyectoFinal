@@ -33,6 +33,7 @@ namespace ProyectoFinal.Controllers.v1
             {
                 return NotFound();
             }
+            else { }
 
             return cliente;
         }
