@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProyectoFinal.Contexts;
 using ProyectoFinal.Entities;
 
@@ -21,7 +22,11 @@ namespace ProyectoFinal.Controllers.v1
         [HttpGet]
         public async Task<ActionResult<List<Factura>>> Get()
         {
-            return dbContext.Factura.ToList();
+            //var facturas = dbContext.Factura
+            //    .Include(x => x.Cliente);
+            //return await facturas.ToListAsync();
+
+            return await dbContext.Factura.ToListAsync();
         }
 
         [HttpGet("{id}")]
@@ -36,8 +41,6 @@ namespace ProyectoFinal.Controllers.v1
             else {
                 return factura;
             }
-
-            
         }
 
 
@@ -48,6 +51,19 @@ namespace ProyectoFinal.Controllers.v1
 
             await dbContext.SaveChangesAsync();
 
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutUser(int id, Factura factura)
+        {
+            if (id != factura.FacturaId)
+            {
+                return BadRequest();
+            }
+
+            dbContext.Entry(factura).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync();
             return NoContent();
         }
 

@@ -20,6 +20,8 @@ namespace ProyectoFinal.Entities
         public float Total { get; set; }
 
 
-        
+        // Relaciones
+        public int ClienteId { get; set; }
+        public Cliente? Cliente { get; set; }
     }
 }

@@ -21,7 +21,9 @@ namespace ProyectoFinal.Controllers.v1
         [HttpGet]
         public async Task<ActionResult<List<Cliente>>> Get()
         {
-            return dbContext.Cliente.ToList();
+            var clientes = dbContext.Cliente
+                .Include(x => x.Facturas);
+            return await clientes.ToListAsync();
         }
 
         [HttpGet("{id}")]
@@ -33,9 +35,9 @@ namespace ProyectoFinal.Controllers.v1
             {
                 return NotFound();
             }
-            else { }
-
-            return cliente;
+            else {
+                return cliente;
+            }
         }
 
 
@@ -46,6 +48,19 @@ namespace ProyectoFinal.Controllers.v1
 
             await dbContext.SaveChangesAsync();
 
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutUser(int id, Cliente cliente)
+        {
+            if (id != cliente.ClienteId)
+            {
+                return BadRequest();
+            }
+
+            dbContext.Entry(cliente).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync();
             return NoContent();
         }
 
