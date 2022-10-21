@@ -22,6 +22,6 @@ namespace ProyectoFinal.Entities
 
         // Relaciones
         public int ClienteId { get; set; }
-        public Cliente? Cliente { get; set; }
+        public Cliente Cliente { get; set; }
     }
 }

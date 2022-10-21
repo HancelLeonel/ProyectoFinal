@@ -12,7 +12,6 @@ namespace ProyectoFinal.Entities
         [StringLength(50)]
         public string Nombre { get; set; }
 
-        [MinLength(8), MaxLength(8)]
         public int? Telefono { get; set; }
 
         [StringLength(60)]

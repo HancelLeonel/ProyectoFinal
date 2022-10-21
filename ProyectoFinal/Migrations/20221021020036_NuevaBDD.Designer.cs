@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProyectoFinal.Contexts;
 
@@ -11,9 +12,10 @@ using ProyectoFinal.Contexts;
 namespace ProyectoFinal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221021020036_NuevaBDD")]
+    partial class NuevaBDD
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,6 +43,7 @@ namespace ProyectoFinal.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("Telefono")
+                        .HasMaxLength(8)
                         .HasColumnType("int");
 
                     b.HasKey("ClienteId");

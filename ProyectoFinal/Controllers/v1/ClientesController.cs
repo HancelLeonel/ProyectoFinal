@@ -21,9 +21,11 @@ namespace ProyectoFinal.Controllers.v1
         [HttpGet]
         public async Task<ActionResult<List<Cliente>>> Get()
         {
-            var clientes = dbContext.Cliente
+            /*var clientes = dbContext.Cliente
                 .Include(x => x.Facturas);
-            return await clientes.ToListAsync();
+            return await clientes.ToListAsync();*/
+
+            return dbContext.Cliente.ToList();
         }
 
         [HttpGet("{id}")]
