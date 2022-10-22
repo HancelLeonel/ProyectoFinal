@@ -3,15 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using ProyectoFinal.Contexts;
 using ProyectoFinal.Entities;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ProyectoFinal.Controllers.v1
 {
-    [Route("api/v1/facturas")]
     [ApiController]
+    [Route("api/v1/facturas")]
     public class FacturasController : ControllerBase
     {
-
         private readonly AppDbContext dbContext;
 
         public FacturasController(AppDbContext dbContext)
@@ -22,24 +19,24 @@ namespace ProyectoFinal.Controllers.v1
         [HttpGet]
         public async Task<ActionResult<List<Factura>>> Get()
         {
-            //var facturas = dbContext.Factura
-            //    .Include(x => x.Cliente);
-            //return await facturas.ToListAsync();
-
-            return await dbContext.Factura.ToListAsync();
+            var facturas = dbContext.Factura
+                .Include(x => x.Cliente);
+            return await facturas.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Factura>> Get(int id)
+        public async Task<ActionResult<List<Factura>>> Get(int id)
         {
-            var factura = await dbContext.Factura.FindAsync(id);
+            var factura = dbContext.Factura
+                .Include(x => x.Cliente)
+                .Where(s => s.FacturaId == id);
 
             if (factura == null)
             {
                 return NotFound();
             }
             else {
-                return factura;
+                return await factura.ToListAsync();
             }
         }
 
@@ -55,7 +52,7 @@ namespace ProyectoFinal.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, Factura factura)
+        public async Task<IActionResult> Put(int id, Factura factura)
         {
             if (id != factura.FacturaId)
             {

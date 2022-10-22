@@ -5,19 +5,18 @@ namespace ProyectoFinal.Entities
     public class Factura
     {
         [Key]
-
         public int FacturaId { get; set; }
 
         [StringLength(50)]
-        public string Descripcion { get; set; }
+        public string? Descripcion { get; set; }
 
         [StringLength(20)]
-        public string Fecha { get; set; }
+        public string? Fecha { get; set; }
 
         [StringLength(20)]
-        public string Vencimiento { get; set; }
+        public string? Vencimiento { get; set; }
 
-        public float Total { get; set; }
+        public float? Total { get; set; }
 
 
         // Relaciones

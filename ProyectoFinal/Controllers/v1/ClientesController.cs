@@ -5,13 +5,11 @@ using ProyectoFinal.Entities;
 
 namespace ProyectoFinal.Controllers.v1
 {
-
     [ApiController]
     [Route("api/v1/clientes")]
     public class ClientesController : ControllerBase
     {
         private readonly AppDbContext dbContext;
-
 
         public ClientesController(AppDbContext dbContext)
         {
@@ -21,9 +19,7 @@ namespace ProyectoFinal.Controllers.v1
         [HttpGet]
         public async Task<ActionResult<List<Cliente>>> Get()
         {
-            var clientes = dbContext.Cliente
-                .Include(x => x.Facturas);
-            return await clientes.ToListAsync();
+            return await dbContext.Cliente.ToListAsync();
         }
 
         [HttpGet("{id}")]
@@ -52,7 +48,7 @@ namespace ProyectoFinal.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, Cliente cliente)
+        public async Task<IActionResult> Put(int id, Cliente cliente)
         {
             if (id != cliente.ClienteId)
             {
@@ -79,6 +75,5 @@ namespace ProyectoFinal.Controllers.v1
 
             return NoContent();
         }
-
     }
 }
