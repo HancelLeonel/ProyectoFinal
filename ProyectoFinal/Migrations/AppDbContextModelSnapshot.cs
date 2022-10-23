@@ -31,7 +31,6 @@ namespace ProyectoFinal.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"), 1L, 1);
 
                     b.Property<string>("Direccion")
-                        .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
@@ -40,8 +39,9 @@ namespace ProyectoFinal.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("Telefono")
-                        .HasColumnType("int");
+                    b.Property<string>("Telefono")
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.HasKey("ClienteId");
 
@@ -56,27 +56,84 @@ namespace ProyectoFinal.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FacturaId"), 1L, 1);
 
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Descripcion")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("Estado")
+                        .HasColumnType("int");
+
                     b.Property<string>("Fecha")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<float>("Total")
+                    b.Property<float?>("Total")
                         .HasColumnType("real");
 
                     b.Property<string>("Vencimiento")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("FacturaId");
 
+                    b.HasIndex("ClienteId");
+
                     b.ToTable("Factura");
+                });
+
+            modelBuilder.Entity("ProyectoFinal.Entities.Movimiento", b =>
+                {
+                    b.Property<int>("MovimientoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovimientoId"), 1L, 1);
+
+                    b.Property<int>("FacturaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Fecha")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float?>("TotalPago")
+                        .HasColumnType("real");
+
+                    b.HasKey("MovimientoId");
+
+                    b.HasIndex("FacturaId")
+                        .IsUnique();
+
+                    b.ToTable("Movimiento");
+                });
+
+            modelBuilder.Entity("ProyectoFinal.Entities.Factura", b =>
+                {
+                    b.HasOne("ProyectoFinal.Entities.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+                });
+
+            modelBuilder.Entity("ProyectoFinal.Entities.Movimiento", b =>
+                {
+                    b.HasOne("ProyectoFinal.Entities.Factura", "Factura")
+                        .WithOne("Movimiento")
+                        .HasForeignKey("ProyectoFinal.Entities.Movimiento", "FacturaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Factura");
+                });
+
+            modelBuilder.Entity("ProyectoFinal.Entities.Factura", b =>
+                {
+                    b.Navigation("Movimiento");
                 });
 #pragma warning restore 612, 618
         }

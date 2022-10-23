@@ -7,6 +7,8 @@ namespace ProyectoFinal.Entities
         [Key]
         public int FacturaId { get; set; }
 
+        public int Estado { get; set; }
+
         [StringLength(50)]
         public string? Descripcion { get; set; }
 
@@ -22,5 +24,7 @@ namespace ProyectoFinal.Entities
         // Relaciones
         public int ClienteId { get; set; }
         public Cliente? Cliente { get; set; }
+
+        public Movimiento? Movimiento { get; set; }
     }
 }
