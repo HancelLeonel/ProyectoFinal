@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProyectoFinal.Contexts;
 
@@ -11,9 +12,10 @@ using ProyectoFinal.Contexts;
 namespace ProyectoFinal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221023210440_prueba")]
+    partial class prueba
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,7 +105,8 @@ namespace ProyectoFinal.Migrations
 
                     b.HasKey("MovimientoId");
 
-                    b.HasIndex("FacturaId");
+                    b.HasIndex("FacturaId")
+                        .IsUnique();
 
                     b.ToTable("Movimiento");
                 });
@@ -122,12 +125,17 @@ namespace ProyectoFinal.Migrations
             modelBuilder.Entity("ProyectoFinal.Entities.Movimiento", b =>
                 {
                     b.HasOne("ProyectoFinal.Entities.Factura", "Factura")
-                        .WithMany()
-                        .HasForeignKey("FacturaId")
+                        .WithOne("Movimiento")
+                        .HasForeignKey("ProyectoFinal.Entities.Movimiento", "FacturaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Factura");
+                });
+
+            modelBuilder.Entity("ProyectoFinal.Entities.Factura", b =>
+                {
+                    b.Navigation("Movimiento");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,7 +16,5 @@ namespace ProyectoFinal.Entities
 
         [StringLength(60)]
         public string? Direccion { get; set; }
-        
-
     }
 }

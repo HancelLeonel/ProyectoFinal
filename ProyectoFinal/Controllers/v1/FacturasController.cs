@@ -40,7 +40,6 @@ namespace ProyectoFinal.Controllers.v1
             }
         }
 
-
         [HttpPost]
         public async Task<ActionResult> Post(Factura factura)
         {
@@ -73,8 +72,8 @@ namespace ProyectoFinal.Controllers.v1
             {
                 return NotFound();
             }
-
-            dbContext.Remove(factura);
+            factura.Estado = Estado.Cancelada;
+            //dbContext.Remove(factura);
             await dbContext.SaveChangesAsync();
 
             return NoContent();

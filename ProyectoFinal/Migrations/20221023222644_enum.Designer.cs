@@ -12,8 +12,8 @@ using ProyectoFinal.Contexts;
 namespace ProyectoFinal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221023183156_MovimientosQuery")]
-    partial class MovimientosQuery
+    [Migration("20221023222644_enum")]
+    partial class @enum
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,8 +105,7 @@ namespace ProyectoFinal.Migrations
 
                     b.HasKey("MovimientoId");
 
-                    b.HasIndex("FacturaId")
-                        .IsUnique();
+                    b.HasIndex("FacturaId");
 
                     b.ToTable("Movimiento");
                 });
@@ -125,17 +124,12 @@ namespace ProyectoFinal.Migrations
             modelBuilder.Entity("ProyectoFinal.Entities.Movimiento", b =>
                 {
                     b.HasOne("ProyectoFinal.Entities.Factura", "Factura")
-                        .WithOne("Movimiento")
-                        .HasForeignKey("ProyectoFinal.Entities.Movimiento", "FacturaId")
+                        .WithMany()
+                        .HasForeignKey("FacturaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Factura");
-                });
-
-            modelBuilder.Entity("ProyectoFinal.Entities.Factura", b =>
-                {
-                    b.Navigation("Movimiento");
                 });
 #pragma warning restore 612, 618
         }

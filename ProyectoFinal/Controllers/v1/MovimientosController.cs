@@ -9,11 +9,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinal.Contexts;
 using ProyectoFinal.Entities;
+using Microsoft.VisualStudio.Web.CodeGeneration;
 
 namespace ProyectoFinal.Controllers.v1
 {
-    [Route("api/v1/movimientos")]
     [ApiController]
+    [Route("api/v1/movimientos")]
     public class MovimientosController : ControllerBase
     {
         private readonly AppDbContext dbContext;
@@ -37,7 +38,6 @@ namespace ProyectoFinal.Controllers.v1
         {
             dbContext.Movimiento.Add(movimiento);
             await dbContext.SaveChangesAsync();
-
             return NoContent();
         }
 
@@ -66,8 +66,6 @@ namespace ProyectoFinal.Controllers.v1
             await dbContext.SaveChangesAsync();
 
             return Ok();
-
-
         }
 
         // GET: api/Movimientos/5
