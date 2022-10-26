@@ -29,13 +29,12 @@ namespace ProyectoFinal.Controllers.v1
 
             if (cliente == null)
             {
-                return NotFound();
+                return NotFound("No se ha encontrado el cliente");
             }
             else {
                 return cliente;
             }
         }
-
 
         [HttpPost]
         public async Task<ActionResult> Post(Cliente cliente)
@@ -44,7 +43,7 @@ namespace ProyectoFinal.Controllers.v1
 
             await dbContext.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -52,28 +51,30 @@ namespace ProyectoFinal.Controllers.v1
         {
             if (id != cliente.ClienteId)
             {
-                return BadRequest();
+                return BadRequest("No se ha encontrado el cliente");
             }
 
             dbContext.Entry(cliente).State = EntityState.Modified;
             await dbContext.SaveChangesAsync();
-            return NoContent();
+            return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            var cliente = await dbContext.Cliente.FindAsync(id);
+        //     Borrar Cliente, no accesible
 
-            if (cliente == null) 
-            {
-                return NotFound();
-            }
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> Delete(int id)
+        //{
+        //    var cliente = await dbContext.Cliente.FindAsync(id);
 
-            dbContext.Remove(cliente);
-            await dbContext.SaveChangesAsync();
+        //    if (cliente == null) 
+        //    {
+        //        return NotFound("No se ha encontrado el cliente");
+        //    }
 
-            return NoContent();
-        }
+        //    dbContext.Remove(cliente);
+        //    await dbContext.SaveChangesAsync();
+
+        //    return Ok();
+        //}
     }
 }

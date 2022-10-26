@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinal.Contexts;
 using ProyectoFinal.Entities;
-using Microsoft.VisualStudio.Web.CodeGeneration;
 
 namespace ProyectoFinal.Controllers.v1
 {
@@ -24,7 +16,6 @@ namespace ProyectoFinal.Controllers.v1
             this.dbContext = dbContext;
         }
 
-        // GET: api/Movimientos
         [HttpGet]
         public async Task<ActionResult<List<Movimiento>>> Get()
         {
@@ -33,42 +24,77 @@ namespace ProyectoFinal.Controllers.v1
             return await movimientos.ToListAsync();
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Post(Movimiento movimiento)
-        {
-            dbContext.Movimiento.Add(movimiento);
-            await dbContext.SaveChangesAsync();
-            return NoContent();
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Movimiento movimiento) {
-            if (id != movimiento.MovimientoId) {
-                return BadRequest();
-            }
-
-            dbContext.Entry(movimiento).State = EntityState.Modified;
-            await dbContext.SaveChangesAsync();
-            return Ok();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Movimiento>> Get(int id)
         {
             var movimiento = await dbContext.Movimiento.FindAsync(id);
 
             if (movimiento == null)
             {
-                return NotFound();
+                return NotFound("No se ha encontrado el registro");
             }
-
-            dbContext.Remove(movimiento);
-            await dbContext.SaveChangesAsync();
-
-            return Ok();
+            else
+            {
+                return movimiento;
+            }
         }
 
-        // GET: api/Movimientos/5
-       
+        [HttpPost]
+        public async Task<ActionResult> Post(Movimiento movimiento)
+        {
+            var factura = await dbContext.Factura.FindAsync(movimiento.FacturaId);
+            if (factura == null)
+            {
+                return NotFound("No se ha encontrado la factura");
+            }
+            else
+            {
+                if (movimiento.TotalPago != factura.Total)
+                {
+                    var monto = factura.Total;
+
+                    return BadRequest("Debe pagar el monto total de la factura: " + monto);
+                }
+                else
+                {
+                    factura.Estado = Estado.Cancelada;
+                    dbContext.Movimiento.Add(movimiento);
+
+                    await dbContext.SaveChangesAsync();
+                    return Ok();
+                }
+            }
+        }
+
+        //     Actualizar movimiento, no accesible
+
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> Put(int id, Movimiento movimiento) {
+        //    if (id != movimiento.MovimientoId) {
+        //        return BadRequest();
+        //    }
+
+        //    dbContext.Entry(movimiento).State = EntityState.Modified;
+        //    await dbContext.SaveChangesAsync();
+        //    return Ok();
+        //}
+
+
+        //     Borrar movimiento, no accesible
+
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> Delete(int id)
+        //{
+        //    var movimiento = await dbContext.Movimiento.FindAsync(id);
+
+        //    if (movimiento == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    dbContext.Remove(movimiento);
+        //    await dbContext.SaveChangesAsync();
+
+        //    return Ok();
+        //}
     }
 }

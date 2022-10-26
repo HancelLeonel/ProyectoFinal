@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Schema;
 
 namespace ProyectoFinal.Entities
 {
@@ -16,6 +15,5 @@ namespace ProyectoFinal.Entities
         // Relaciones
         public int FacturaId { get; set; }
         public Factura? Factura { get; set; }
-
     }
 }

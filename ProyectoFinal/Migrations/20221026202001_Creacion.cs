@@ -4,7 +4,7 @@
 
 namespace ProyectoFinal.Migrations
 {
-    public partial class prueba : Migration
+    public partial class Creacion : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,7 +29,7 @@ namespace ProyectoFinal.Migrations
                 {
                     FacturaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Estado = table.Column<int>(type: "int", nullable: false),
+                    Estado = table.Column<int>(type: "int", nullable: true),
                     Descripcion = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Fecha = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Vencimiento = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
@@ -76,8 +76,7 @@ namespace ProyectoFinal.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Movimiento_FacturaId",
                 table: "Movimiento",
-                column: "FacturaId",
-                unique: true);
+                column: "FacturaId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

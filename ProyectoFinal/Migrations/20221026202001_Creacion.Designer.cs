@@ -12,8 +12,8 @@ using ProyectoFinal.Contexts;
 namespace ProyectoFinal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221023222644_enum")]
-    partial class @enum
+    [Migration("20221026202001_Creacion")]
+    partial class Creacion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,7 +65,7 @@ namespace ProyectoFinal.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Estado")
+                    b.Property<int?>("Estado")
                         .HasColumnType("int");
 
                     b.Property<string>("Fecha")

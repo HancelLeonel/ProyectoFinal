@@ -25,29 +25,36 @@ namespace ProyectoFinal.Controllers.v1
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Factura>>> Get(int id)
+        public async Task<ActionResult<Factura>> Get(int id)
         {
-            var factura = dbContext.Factura
-                .Include(x => x.Cliente)
-                .Where(s => s.FacturaId == id);
+            var factura = await dbContext.Factura.FindAsync(id);
 
             if (factura == null)
             {
-                return NotFound();
+                return NotFound("No se ha encontrado la factura");
             }
             else {
-                return await factura.ToListAsync();
+                return factura;
             }
         }
 
         [HttpPost]
         public async Task<ActionResult> Post(Factura factura)
         {
-            dbContext.Factura.Add(factura);
+            var cliente = await dbContext.Cliente.FindAsync(factura.ClienteId);
 
-            await dbContext.SaveChangesAsync();
+            if (cliente == null)
+            {
+                return NotFound("No se ha encontrado el cliente");
+            }
+            else
+            {
+                factura.Estado = Estado.Activa;
+                dbContext.Factura.Add(factura);
+                await dbContext.SaveChangesAsync();
 
-            return NoContent();
+                return Ok();
+            }
         }
 
         [HttpPut("{id}")]
@@ -55,28 +62,31 @@ namespace ProyectoFinal.Controllers.v1
         {
             if (id != factura.FacturaId)
             {
-                return BadRequest();
+                return BadRequest("No se ha encontrado la factura");
             }
 
             dbContext.Entry(factura).State = EntityState.Modified;
             await dbContext.SaveChangesAsync();
-            return NoContent();
+            return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            var factura = await dbContext.Factura.FindAsync(id);
+        //     Borrar Factura, no accesible
 
-            if (factura == null)
-            {
-                return NotFound();
-            }
-            factura.Estado = Estado.Cancelada;
-            //dbContext.Remove(factura);
-            await dbContext.SaveChangesAsync();
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> Delete(int id)
+        //{
+        //    var factura = await dbContext.Factura.FindAsync(id);
 
-            return NoContent();
-        }
+        //    if (factura == null)
+        //    {
+        //        return NotFound("No se ha encontrado la factura");
+        //    }
+
+        //    //dbContext.Remove(factura);
+        //    factura.Estado = Estado.Cancelada;
+        //    await dbContext.SaveChangesAsync();
+
+        //    return Ok();
+        //}
     }
 }

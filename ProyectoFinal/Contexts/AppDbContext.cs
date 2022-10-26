@@ -14,6 +14,5 @@ namespace ProyectoFinal.Contexts
         public DbSet<Factura> Factura { get; set; }
 
         public DbSet<Movimiento> Movimiento { get; set; }
-
     }
 }
