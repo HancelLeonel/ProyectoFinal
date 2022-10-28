@@ -49,19 +49,26 @@ namespace ProyectoFinal.Controllers.v1
             }
             else
             {
-                if (movimiento.TotalPago != factura.Total)
+                if (factura.Estado == Estado.Cancelada)
                 {
-                    var monto = factura.Total;
-
-                    return BadRequest("Debe pagar el monto total de la factura: " + monto);
+                    return BadRequest("Esa factura ya ha sido cancelada");
                 }
                 else
                 {
-                    factura.Estado = Estado.Cancelada;
-                    dbContext.Movimiento.Add(movimiento);
+                    if (movimiento.TotalPago != factura.Total)
+                    {
+                        var monto = factura.Total;
 
-                    await dbContext.SaveChangesAsync();
-                    return Ok();
+                        return BadRequest("Debe pagar el monto total de la factura: " + monto);
+                    }
+                    else
+                    {
+                        factura.Estado = Estado.Cancelada;
+                        dbContext.Movimiento.Add(movimiento);
+
+                        await dbContext.SaveChangesAsync();
+                        return Ok();
+                    }
                 }
             }
         }
