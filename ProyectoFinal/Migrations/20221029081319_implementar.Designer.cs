@@ -12,8 +12,8 @@ using ProyectoFinal.Contexts;
 namespace ProyectoFinal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221026202001_Creacion")]
-    partial class Creacion
+    [Migration("20221029081319_implementar")]
+    partial class implementar
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

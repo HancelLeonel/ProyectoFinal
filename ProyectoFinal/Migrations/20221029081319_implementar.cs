@@ -4,7 +4,7 @@
 
 namespace ProyectoFinal.Migrations
 {
-    public partial class Creacion : Migration
+    public partial class implementar : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

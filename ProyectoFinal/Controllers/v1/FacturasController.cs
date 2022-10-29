@@ -33,8 +33,10 @@ namespace ProyectoFinal.Controllers.v1
             {
                 return NotFound("No se ha encontrado la factura");
             }
-            else {
-                return factura;
+            else
+            {
+                var fac = dbContext.Factura.Include(x => x.Cliente).Where(y => y.FacturaId == id);
+                return fac.First();
             }
         }
 
@@ -71,7 +73,7 @@ namespace ProyectoFinal.Controllers.v1
         }
 
         //     Borrar Factura, no accesible
-
+        
         //[HttpDelete("{id}")]
         //public async Task<ActionResult> Delete(int id)
         //{
@@ -82,7 +84,7 @@ namespace ProyectoFinal.Controllers.v1
         //        return NotFound("No se ha encontrado la factura");
         //    }
 
-        //    //dbContext.Remove(factura);
+        //    dbContext.Remove(factura);
         //    factura.Estado = Estado.Cancelada;
         //    await dbContext.SaveChangesAsync();
 

@@ -35,8 +35,12 @@ namespace ProyectoFinal.Controllers.v1
             }
             else
             {
-                return movimiento;
-            }
+                var mov = dbContext.Movimiento
+                    .Include(x => x.Factura.Cliente)
+                    .Where(y => y.MovimientoId == id);
+                return mov.First();
+                //return movimiento;
+            }
         }
 
         [HttpPost]
